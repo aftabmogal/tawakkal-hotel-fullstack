@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /my-bookings
+Disallow: /booking/
+
+Sitemap: /sitemap.xml

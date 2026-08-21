@@ -1,0 +1,31 @@
+SECRET_KEY=change-me-to-a-long-random-string
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+DB_NAME=tawakkal_hotel
+DB_USER=root
+DB_PASSWORD=aftab@8355
+DB_HOST=localhost
+DB_PORT=3306
+
+CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+
+OTP_EXPIRY_MINUTES=5
+
+# Leave both blank to keep online payments disabled — bookings stay
+# "Pay at Hotel" and /create-order/ returns a clean 503.
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
+
+# Email — defaults to printing to the console. Set EMAIL_BACKEND=smtp and
+# fill in the rest to send real mail (e.g. via a transactional email provider).
+EMAIL_BACKEND=console
+EMAIL_HOST=
+EMAIL_PORT=587
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=
+EMAIL_USE_TLS=True
+DEFAULT_FROM_EMAIL=Tawakkal Hotel <no-reply@tawakkalhotel.example>
+
+HOTEL_CONTACT_PHONE=+91 86551 16190
+HOTEL_CONTACT_ADDRESS=66A, Bail Bazar, Opposite Municipal Hospital, Kurla West, Mumbai – 400070

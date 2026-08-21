@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Signature motif: a horseshoe-arch frame, echoing the arched doorways of
+   Tawakkal's heritage architecture. Used sparingly for hero panels,
+   image frames, and card tops so it reads as a mark, not decoration. */
+.arch-frame {
+  border-radius: 160px 160px 12px 12px;
+  overflow: hidden;
+}
+
+.arch-frame-sm {
+  border-radius: 90px 90px 8px 8px;
+  overflow: hidden;
+}
+
+.arch-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #b8934a, transparent);
+}
+
+.eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
