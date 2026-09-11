@@ -2,15 +2,16 @@ import os
 import dj_database_url
 from datetime import timedelta
 from pathlib import Path
-
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-me-in-production')
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+# Allow Render host and local dev
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -35,8 +36,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # CorsMiddleware MUST be first
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -65,21 +66,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Automatically switches to PostgreSQL if DATABASE_URL is present, otherwise falls back to local SQLite/MySQL
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'tawakkal_hotel'),
-        'USER': os.getenv('DB_USER', 'root'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'aftab@8355'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '3306'),
-        'OPTIONS': {'charset': 'utf8mb4'},
-        'default': dj_database_url.config(
+    'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
         conn_max_retries=2,
     )
-    }
 }
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -124,21 +117,19 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-CORS_ALLOWED_ORIGINS = os.getenv(
-    'CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173'
-).split(',')
+# Explicitly allow Netlify frontend and local environment origins
+CORS_ALLOWED_ORIGINS = [
+    "https://tawakkal-hotel-fullstack.netlify.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+CORS_ALLOW_ALL_ORIGINS = True  # Ensures external frontend connections pass during testing
 
-# OTPs are logged to the console in dev (see accounts/sms.py) — no real SMS
-# provider is wired up yet.
 OTP_EXPIRY_MINUTES = int(os.getenv('OTP_EXPIRY_MINUTES', '5'))
 
-# Razorpay — leave blank to keep online payments disabled (bookings stay
-# "Pay at Hotel"). The /create-order/ endpoint returns a clean 503 until set.
 RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', '')
 RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET', '')
 
-# Email — defaults to printing to the console in dev. Set EMAIL_HOST etc. in
-# .env (and switch EMAIL_BACKEND to smtp) to send real mail.
 EMAIL_BACKEND = (
     'django.core.mail.backends.smtp.EmailBackend'
     if os.getenv('EMAIL_BACKEND') == 'smtp'
