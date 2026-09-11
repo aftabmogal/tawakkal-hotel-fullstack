@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'CorsMiddleware.corsheaders.middleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # ADD THIS LINE
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,12 +67,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Automatically switches to PostgreSQL if DATABASE_URL is present, otherwise falls back to local SQLite/MySQL
+# In backend/config/settings.py
+
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
-        conn_max_retries=2,
     )
 }
 
