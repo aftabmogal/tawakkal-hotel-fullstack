@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from datetime import timedelta
 from pathlib import Path
 
@@ -73,6 +74,11 @@ DATABASES = {
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '3306'),
         'OPTIONS': {'charset': 'utf8mb4'},
+        'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_max_retries=2,
+    )
     }
 }
 
