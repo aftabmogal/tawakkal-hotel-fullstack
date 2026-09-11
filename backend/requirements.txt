@@ -10,3 +10,4 @@ razorpay==1.4.2
 dj-database-url
 psycopg2-binary
 whitenoise
+gunicorn
