@@ -8,7 +8,6 @@ tawakkal-hotel/
 └── backend/    Django + DRF + MySQL API — auth, bookings, payments, notifications
 ```
 
-## Quick start
 
 **Backend:**
 
@@ -38,15 +37,9 @@ npm run dev
   Facilities, Gallery, About, Contact, phone/OTP sign-in — all real data, no mocks
 - **Admin panel** (`/admin`, staff-only, same phone/OTP login as guests) — dashboard,
   rooms, facilities, bookings, customers, restaurant menu, reviews, contact messages
-- **Payments** — Razorpay order creation + signature verification; bookings default to
-  "Pay at Hotel" until Razorpay keys are configured
-- **Email notifications** — booking confirmation and cancellation emails (console backend
-  in dev, real SMTP via `.env`)
 - **Accounts auto-save to MySQL** — every OTP verification does a `get_or_create` on the
   `User` table; there's no separate registration step
+-**OTP verification** - Used 2factor's free trail for real time otp.
 
-## Still to build
-
-- Real SMS provider for OTPs (currently logs to console)
 - Server-side rendering / pre-rendering for full SEO
 - Production deployment config (static/media storage, `DEBUG=False`, real hosts/domain)
